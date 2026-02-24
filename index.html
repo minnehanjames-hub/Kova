@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kova — Web Design for Local Businesses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,700;1,300;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #1a4a2e;
+      --green-mid:    #2d7a4f;
+      --green-bright: #3aaa6a;
+      --green-light:  #d4edda;
+      --green-pale:   #f0faf4;
+      --cream:        #faf8f3;
+      --warm-white:   #ffffff;
+      --text-dark:    #1a2e22;
+      --text-mid:     #3d5a47;
+      --text-soft:    #6b8f74;
+      --accent:       #e8a020;
+      --accent-light: #fef3dc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(250, 248, 243, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(45,122,79,0.12);
+    }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--green-bright); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green-bright); }
+    .nav-cta {
+      background: var(--green-mid);
+      color: white !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 50px;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--green-deep) !important; color: white !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 5% 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(58,170,106,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(45,122,79,0.08) 0%, transparent 60%),
+        var(--cream);
+    }
+    .hero-leaf {
+      position: absolute; right: -40px; top: 50%;
+      transform: translateY(-50%);
+      width: min(55vw, 620px);
+      opacity: 0.07;
+      z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-light);
+      color: var(--green-deep);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-eyebrow::before { content: "🌱"; font-size: 0.9rem; }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--green-deep);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--green-bright);
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-mid);
+      color: white;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(45,122,79,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--green-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(45,122,79,0.35);
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--green-deep);
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 1rem;
+      border: 2px solid var(--green-light);
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--green-mid);
+      background: var(--green-pale);
+    }
+    .hero-trust {
+      margin-top: 3.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-soft);
+    }
+    .trust-item::before { content: "✓"; color: var(--green-bright); font-weight: 700; }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 5%; }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 540px;
+      font-weight: 300;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--warm-white); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .step-card {
+      background: var(--green-pale);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--green-light);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-mid), var(--green-bright));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+    .step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(45,122,79,0.12); }
+    .step-card:hover::after { transform: scaleX(1); }
+    .step-num {
+      font-family: 'Fraunces', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--green-light);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .step-title {
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: var(--green-deep);
+      margin-bottom: 0.5rem;
+    }
+    .step-desc { font-size: 0.92rem; color: var(--text-soft); line-height: 1.6; }
+
+    /* ── PORTFOLIO ── */
+    #portfolio { background: var(--cream); }
+    .portfolio-intro { max-width: 600px; margin-bottom: 3.5rem; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+    }
+    .portfolio-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--green-light);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(45,122,79,0.14); }
+    .portfolio-thumb {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-thumb-1 { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+    .portfolio-thumb-2 { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+    .portfolio-thumb-3 { background: linear-gradient(135deg, #fff8e1, #ffecb3); }
+    .portfolio-mock {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      padding: 1.2rem;
+    }
+    .mock-bar {
+      height: 8px; background: rgba(255,255,255,0.7);
+      border-radius: 4px; margin-bottom: 0.5rem;
+    }
+    .mock-bar.short { width: 40%; }
+    .mock-bar.mid { width: 70%; }
+    .mock-bar.long { width: 90%; }
+    .mock-hero-block {
+      flex: 1; background: rgba(255,255,255,0.5);
+      border-radius: 8px; margin-top: 0.4rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mock-hero-block span { font-size: 2rem; }
+    .portfolio-info { padding: 1.5rem; }
+    .portfolio-tag {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-deep);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .portfolio-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--green-deep);
+      margin-bottom: 0.4rem;
+    }
+    .portfolio-desc { font-size: 0.88rem; color: var(--text-soft); line-height: 1.5; }
+    .portfolio-coming {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; min-height: 300px;
+      flex-direction: column; gap: 1rem;
+      background: var(--green-pale);
+      border-radius: 20px;
+      border: 2px dashed var(--green-light);
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+    .portfolio-coming span { font-size: 2.5rem; }
+
+    /* ── PRICING ── */
+    #pricing { background: var(--warm-white); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+      margin-top: 3.5rem;
+    }
+    .price-card {
+      background: var(--green-pale);
+      border: 2px solid var(--green-light);
+      border-radius: 24px;
+      padding: 2.2rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+    }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 14px 45px rgba(45,122,79,0.13); }
+    .price-card.featured {
+      background: var(--green-deep);
+      border-color: var(--green-deep);
+      color: white;
+    }
+    .price-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .price-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 0.6rem;
+    }
+    .price-card.featured .price-name { color: rgba(255,255,255,0.7); }
+    .price-amount {
+      font-family: 'Fraunces', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .price-card.featured .price-amount { color: white; }
+    .price-note { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 1.5rem; }
+    .price-card.featured .price-note { color: rgba(255,255,255,0.6); }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .price-features li {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      line-height: 1.4;
+    }
+    .price-card.featured .price-features li { color: rgba(255,255,255,0.85); }
+    .price-features li::before { content: "✓"; color: var(--green-bright); font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+    .price-card.featured .price-features li::before { color: #a8e6c0; }
+    .price-cta {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 0.85rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      background: var(--green-mid);
+      color: white;
+    }
+    .price-card.featured .price-cta { background: white; color: var(--green-deep); }
+    .price-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .about-visual {
+      background: linear-gradient(135deg, var(--green-light), var(--green-pale));
+      border-radius: 30px;
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+      border: 2px solid var(--green-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 60%);
+    }
+    .about-text .section-sub { max-width: 100%; margin-bottom: 1.5rem; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-top: 2rem;
+    }
+    .stat-box {
+      background: var(--warm-white);
+      border: 1px solid var(--green-light);
+      border-radius: 16px;
+      padding: 1.2rem;
+    }
+    .stat-num {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--green-mid);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.3rem; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--green-deep);
+      color: white;
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .contact-inner { grid-template-columns: 1fr; gap: 3rem; } }
+    #contact .section-title { color: white; }
+    #contact .section-sub { color: rgba(255,255,255,0.7); }
+    .contact-perks { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-perk {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.95rem; color: rgba(255,255,255,0.85);
+    }
+    .perk-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-form {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 2.5rem;
+    }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.35); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--green-bright); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: var(--green-deep); }
+    .form-submit {
+      width: 100%;
+      background: var(--green-bright);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .form-submit:hover { background: var(--green-mid); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111e15;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.85rem;
+    }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 6rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ko<span>va</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Free Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="hero-leaf" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 480 C200 480 20 380 20 200 C20 80 120 20 200 20 C280 20 380 80 380 200 C380 380 200 480 200 480Z" fill="#2d7a4f"/>
+    <path d="M200 480 L200 20" stroke="#3aaa6a" stroke-width="3"/>
+    <path d="M200 300 C150 250 80 220 60 180" stroke="#3aaa6a" stroke-width="2"/>
+    <path d="M200 350 C260 290 320 260 340 220" stroke="#3aaa6a" stroke-width="2"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Based in Harrisonburg, VA &amp; Beyond</div>
+    <h1 class="hero-title">
+      Websites that work as hard as <em>you do</em>
+    </h1>
+    <p class="hero-sub">
+      I build clean, fast, professional websites for local businesses — so you can focus on what you do best. No tech headaches, no big agency fees. Just results.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get Your Free Quote →</a>
+      <a href="#portfolio" class="btn-secondary">See My Work</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-item">Fast turnaround</span>
+      <span class="trust-item">Local &amp; personal</span>
+      <span class="trust-item">Ongoing support</span>
+      <span class="trust-item">No hidden fees</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">Simple Process</div>
+  <h2 class="section-title">From idea to live site<br>in just a few steps</h2>
+  <p class="section-sub">I keep things simple and stress-free. You focus on your business — I handle all the tech.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">We Talk</div>
+      <p class="step-desc">We meet up or hop on a quick call. I learn about your business, your goals, and what you need from your website.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">I Build It</div>
+      <p class="step-desc">I design and build your site — clean, fast, and mobile-friendly. You review it before anything goes live.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">We Launch</div>
+      <p class="step-desc">Your site goes live on your own domain. I handle all the technical setup so you don't have to lift a finger.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-title">I've Got You</div>
+      <p class="step-desc">Need an update? Something changed? I'm just a text away. Your monthly plan keeps everything running smoothly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-intro">
+    <div class="section-label">Recent Work</div>
+    <h2 class="section-title">Sites built for real businesses</h2>
+    <p class="section-sub">Every site is custom-built for the business — no cookie-cutter templates.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-card">
+      <div class="portfolio-thumb portfolio-thumb-1">
+        <div class="portfolio-mock">
+          <div class="mock-bar long"></div>
+          <div class="mock-bar short"></div>
+          <div class="mock-hero-block"><span>🔧</span></div>
+        </div>
+      </div>
+      <div class="portfolio-info">
+        <span class="portfolio-tag">HVAC</span>
+        <div class="portfolio-name">Valley Comfort Heating & Air</div>
+        <p class="portfolio-desc">Clean, trustworthy site with online quote requests and service area pages.</p>
+      </div>
+    </div>
+    <div class="portfolio-card">
+      <div class="portfolio-thumb portfolio-thumb-2">
+        <div class="portfolio-mock">
+          <div class="mock-bar mid"></div>
+          <div class="mock-bar short"></div>
+          <div class="mock-hero-block"><span>🦷</span></div>
+        </div>
+      </div>
+      <div class="portfolio-info">
+        <span class="portfolio-tag">Healthcare</span>
+        <div class="portfolio-name">Shenandoah Family Dental</div>
+        <p class="portfolio-desc">Professional, friendly site with appointment booking and patient info pages.</p>
+      </div>
+    </div>
+    <div class="portfolio-coming">
+      <span>🌱</span>
+      <p>Your business could be here</p>
+      <a href="#contact" class="btn-primary" style="font-size:0.9rem; padding: 0.7rem 1.5rem;">Let's Talk →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Transparent Pricing</div>
+  <h2 class="section-title">Simple, honest pricing</h2>
+  <p class="section-sub">No surprise fees, no fine print. Just straightforward pricing for real businesses.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Starter</div>
+      <div class="price-amount">$800</div>
+      <div class="price-note">One-time build + $50/mo</div>
+      <ul class="price-features">
+        <li>Up to 5 pages</li>
+        <li>Mobile-friendly design</li>
+        <li>Contact form</li>
+        <li>Your own domain</li>
+        <li>Basic SEO setup</li>
+        <li>Hosting & maintenance</li>
+      </ul>
+      <a href="#contact" class="price-cta">Get Started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-name">Business</div>
+      <div class="price-amount">$1,500</div>
+      <div class="price-note">One-time build + $100/mo</div>
+      <ul class="price-features">
+        <li>Up to 8 pages</li>
+        <li>Custom design (your brand)</li>
+        <li>Google Maps integration</li>
+        <li>Photo gallery</li>
+        <li>SEO optimization</li>
+        <li>Priority support</li>
+        <li>Monthly updates included</li>
+      </ul>
+      <a href="#contact" class="price-cta">Get Started</a>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Premium</div>
+      <div class="price-amount">$2,500</div>
+      <div class="price-note">One-time build + $150/mo</div>
+      <ul class="price-features">
+        <li>Unlimited pages</li>
+        <li>Advanced SEO package</li>
+        <li>Blog / news section</li>
+        <li>Online booking or forms</li>
+        <li>Google Analytics setup</li>
+        <li>Quarterly strategy calls</li>
+        <li>Full ongoing management</li>
+      </ul>
+      <a href="#contact" class="price-cta">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual">🌿</div>
+    <div class="about-text">
+      <div class="section-label">About Kova</div>
+      <h2 class="section-title">Local, personal, and invested in your success</h2>
+      <p class="section-sub">
+        Kova is a web design business based right here in Harrisonburg, VA. We started building websites because we saw how many great local businesses were being held back by having no online presence — or one that didn't do them justice.
+      </p>
+      <p class="section-sub" style="margin-top: 1rem;">
+        When you work with Kova, you're not dealing with a faceless agency. You get someone who knows this community, answers your calls, and genuinely cares about seeing your business grow.
+      </p>
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Custom-built sites</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Local</div>
+          <div class="stat-label">Harrisonburg-based</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Fast</div>
+          <div class="stat-label">2-week average turnaround</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Always</div>
+          <div class="stat-label">Here when you need me</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label" style="color: rgba(255,255,255,0.5);">Get In Touch</div>
+      <h2 class="section-title">Let's build something great together</h2>
+      <p class="section-sub">
+        Have a business in Harrisonburg or anywhere in the Valley? I'd love to chat about getting you online. No pressure, no obligation — just a friendly conversation.
+      </p>
+      <div class="contact-perks">
+        <div class="contact-perk">
+          <div class="perk-icon">💬</div>
+          Free consultation — no strings attached
+        </div>
+        <div class="contact-perk">
+          <div class="perk-icon">⚡</div>
+          Fast quote within 24 hours
+        </div>
+        <div class="contact-perk">
+          <div class="perk-icon">🤝</div>
+          In-person meetings available in Harrisonburg
+        </div>
+        <div class="contact-perk">
+          <div class="perk-icon">📍</div>
+          Harrisonburg, VA — serving all of the Shenandoah Valley
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label>Business Name</label>
+          <input type="text" placeholder="Smith's Plumbing LLC" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="jane@yourbusiness.com" required />
+        </div>
+        <div class="form-group">
+          <label>What do you need?</label>
+          <select>
+            <option value="">Select a package...</option>
+            <option>Starter — $1,500</option>
+            <option>Business — $2,500 (Most Popular)</option>
+            <option>Premium — $4,000</option>
+            <option>Not sure yet — just want to chat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell me about your business</label>
+          <textarea placeholder="What does your business do? Do you have an existing website?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>Kova</strong> — Web Design for Local Businesses · Harrisonburg, VA</p>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Message Sent! I\'ll be in touch soon.';
+    btn.style.background = '#1a4a2e';
+    btn.disabled = true;
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.animation = 'fadeUp 0.6s ease both';
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.step-card, .portfolio-card, .price-card, .stat-box').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
